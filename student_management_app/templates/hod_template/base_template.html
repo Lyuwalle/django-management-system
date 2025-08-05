@@ -5,35 +5,68 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Student Management System | Dashboard</title>
-  <!-- Tell the browser to be responsive to screen width -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="{% static "fontawesome-free/css/all.min.css" %}">
-  <!-- Ionicons -->
+  <title>{% block page_title1 %}Student Management System{% endblock page_title1 %} | Dashboard</title>
+  <meta name="description" content="Modern student management system for educational institutions">
+  <meta name="keywords" content="student management, education, dashboard, academic">
+  <meta name="author" content="Your Institution Name">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="{% static 'dist/img/favicon-32x32.png' %}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{% static 'dist/img/favicon-16x16.png' %}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{% static 'dist/img/apple-touch-icon.png' %}">
+
+  <!-- Preconnect to external resources for better performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://code.ionicframework.com">
+
+  <!-- CSS Framework & Libraries -->
+  <link rel="stylesheet" href="{% static 'fontawesome-free/css/all.min.css' %}">
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-  <!-- Tempusdominus Bbootstrap 4 -->
   <link rel="stylesheet" href="{% static 'tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css' %}">
-  <!-- iCheck -->
-  <link rel="stylesheet" href="{% static "icheck-bootstrap/icheck-bootstrap.min.css" %}">
-  <!-- JQVMap -->
-  <link rel="stylesheet" href="{% static "jqvmap/jqvmap.min.css" %}">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="{% static 'dist/css/adminlte.min.css'  %}">
-  <!-- overlayScrollbars -->
-  <link rel="stylesheet" href="{% static "overlayScrollbars/css/OverlayScrollbars.min.css" %}">
-  <!-- Daterange picker -->
-  <link rel="stylesheet" href="{% static "daterangepicker/daterangepicker.css" %}">
-  <!-- summernote -->
-  <link rel="stylesheet" href="{% static "summernote/summernote-bs4.css" %}">
-  <!-- Google Font: Source Sans Pro -->
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'icheck-bootstrap/icheck-bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'jqvmap/jqvmap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'overlayScrollbars/css/OverlayScrollbars.min.css' %}">
+  <link rel="stylesheet" href="{% static 'daterangepicker/daterangepicker.css' %}">
+  <link rel="stylesheet" href="{% static 'summernote/summernote-bs4.css' %}">
 
-    {% comment %} For Custom CSS {% endcomment %}
+  <!-- Modern Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    {% block custom_css %}
-    {% endblock custom_css %}
+  <!-- Theme Styles -->
+  <link rel="stylesheet" href="{% static 'dist/css/adminlte.min.css' %}">
 
+  <!-- Custom CSS Variables -->
+  <style>
+    :root {
+      --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      --font-primary: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      --font-heading: 'Poppins', 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    body {
+      font-family: var(--font-primary);
+      font-weight: 400;
+      line-height: 1.6;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-heading);
+      font-weight: 600;
+    }
+
+    .page-title-gradient {
+      background: var(--primary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+  </style>
+
+  {% block custom_css %}{% endblock custom_css %}
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -48,17 +81,19 @@
         </li>
       </ul>
 
-      <h4 style="margin-left: 10px; margin-top: 5px;">Student Management System HOD Login</h4>
+      <h4 style="margin-left: 10px; margin-top: 5px;">Hardware Management System</h4>
 
       <ul class="navbar-nav ml-auto">
-      
+
       <!-- Notifications Dropdown Menu -->
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
-          <i class="fas fa-cog"></i>
+{#          <i class="fas fa-cog"></i>#}
+            <i class="fas fa-user-alt"></i>
+            <i class="fas fa-caret-down ml-1"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0px;">
-          
+
           <a href="{% url 'admin_profile' %}" class="dropdown-item">
             <i class="fas fa-user-edit mr-2"></i> Update Profile
           </a>
@@ -91,11 +126,11 @@
                 {% endblock page_title %}
               </h1>
             </div><!-- /.col -->
-            <div class="col-sm-6">
-              <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="{% url 'admin_home' %}">Home</a></li>
-              </ol>
-            </div><!-- /.col -->
+{#            <div class="col-sm-6">#}
+{#              <ol class="breadcrumb float-sm-right">#}
+{#                <li class="breadcrumb-item"><a href="{% url 'admin_home' %}">Home</a></li>#}
+{#              </ol>#}
+{#            </div><!-- /.col -->#}
           </div><!-- /.row -->
         </div><!-- /.container-fluid -->
       </div>
@@ -109,7 +144,7 @@
     <!-- /.content-wrapper -->
     {% include 'hod_template/footer.html' %}
 
-    
+
   </div>
   <!-- ./wrapper -->
 

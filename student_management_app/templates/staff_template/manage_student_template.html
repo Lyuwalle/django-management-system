@@ -1,4 +1,4 @@
-{% extends 'hod_template/base_template.html' %}
+{% extends 'staff_template/base_template.html' %}
 
 {#{% block page_title %}#}
 {#    Manage Student#}
@@ -19,7 +19,7 @@
                             <i class="fas fa-users text-primary mr-2"></i>
                             Student Management
                         </h2>
-                        <a class="btn btn-primary btn-lg shadow-sm" href="{% url 'add_student' %}" role="button">
+                        <a class="btn btn-primary btn-lg shadow-sm" href="{% url 'staff_add_student' %}" role="button">
                             <i class="fas fa-plus mr-2"></i>Add New Student
                         </a>
                     </div>
@@ -112,8 +112,8 @@
                                         <td>{{ student.admin.last_login }}</td>
                                         <td>{{ student.admin.date_joined }}</td>
                                         <td>
-                                            <a href="{% url 'edit_student' student.admin.id %}" class="btn btn-success">Edit</a>
-                                            <a href="{% url 'delete_student' student.admin.id %}"
+                                            <a href="{% url 'staff_edit_student' student.admin.id %}" class="btn btn-success">Edit</a>
+                                            <a href="{% url 'staff_delete_student' student.admin.id %}"
                                                class="btn btn-danger">Delete</a>
                                         </td>
                                     </tr>

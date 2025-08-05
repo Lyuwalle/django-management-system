@@ -411,7 +411,7 @@ def edit_student(request, student_id):
         "username": student.admin.username,
         "form": form
     }
-    return render(request, "hod_template/edit_student_template.html", context)
+    return render(request, "staff_template/edit_student_template.html", context)
 
 
 def edit_student_save(request):
