@@ -168,6 +168,26 @@ class StudentResult(models.Model):
     objects = models.Manager()
 
 
+class Hardware(models.Model):
+    hardware_id = models.AutoField(primary_key=True)
+    hardware_name = models.CharField(max_length=255)
+    hardware_type = models.CharField(max_length=100)
+    serial_number = models.CharField(max_length=100, unique=True)
+    purchase_date = models.DateField()
+    warranty_end_date = models.DateField()
+    status = models.CharField(max_length=50, choices=[
+        ('Available', 'Available'),
+        ('In Use', 'In Use'),
+        ('Maintenance', 'Maintenance'),
+        ('Retired', 'Retired')
+    ], default='Available')
+    location = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.hardware_name} - {self.serial_number}"
+
 #Creating Django Signals
 
 # It's like trigger in database. It will run only when Data is Added in CustomUser model
