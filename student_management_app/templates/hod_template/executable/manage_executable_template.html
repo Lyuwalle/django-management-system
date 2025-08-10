@@ -1,0 +1,133 @@
+{% extends 'hod_template/base_template.html' %}
+
+{% block main_content %}
+
+{% load static %}
+
+<section class="content">
+    <div class="container-fluid">
+
+        <!-- Header Section -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h2 class="text-dark font-weight-bold">
+                        <i class="nav-icon fas fa-file-code text-primary"></i>
+                        可执行文件管理
+                    </h2>
+                    <a class="btn btn-primary btn-lg shadow-sm" href="{% url 'add_executable' %}" role="button">
+                        <i class="fas fa-upload mr-2"></i>上传可执行文件
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        {% if messages %}
+            <div class="form-group">
+                <div class="col-12">
+                    {% for message in messages %}
+                        {% if message.tags == "success" %}
+                        <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        {% elif message.tags == "error" %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Executable Files Table -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">可执行文件列表</h3>
+
+{#                        <div class="card-tools">#}
+{#                            <div class="input-group input-group-sm" style="width: 150px;">#}
+{#                                <label>#}
+{#                                    <input type="text" name="table_search" class="form-control float-right" placeholder="搜索">#}
+{#                                </label>#}
+{#                                <div class="input-group-append">#}
+{#                                    <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body table-responsive p-0">
+                        <table class="table table-hover text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>文件名</th>
+                                    <th>文件大小</th>
+                                    <th>上传日期</th>
+                                    <th>上传者</th>
+                                    <th>描述</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for executable in executable_list %}
+                                <tr>
+                                    <td>{{ executable.id }}</td>
+                                    <td>
+                                        <i class="fas fa-file-code text-primary mr-2"></i>
+                                        {{ executable.file_name }}
+                                    </td>
+                                    <td>{{ executable.get_file_size_display }}</td>
+                                    <td>{{ executable.upload_date|date:"Y-m-d H:i" }}</td>
+                                    <td>{{ executable.uploaded_by.first_name }} {{ executable.uploaded_by.last_name }}</td>
+                                    <td>
+                                        {% if executable.description %}
+                                            {{ executable.description|truncatechars:50 }}
+                                        {% else %}
+                                            <span class="text-muted">无描述</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'download_executable' executable.id %}" class="btn btn-sm btn-info mr-1">
+                                            <i class="fas fa-download"></i> 下载
+                                        </a>
+                                        <a href="{% url 'delete_executable' executable.id %}" class="btn btn-sm btn-danger" onclick="return confirm('确定要删除这个可执行文件吗？')">
+                                            <i class="fas fa-trash"></i> 删除
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="7" class="text-center text-muted">暂无可执行文件信息</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+{#                    <div class="card-footer clearfix">#}
+{#                        <div class="float-right">#}
+{#                            <small class="text-muted">#}
+{#                                <i class="fas fa-info-circle mr-1"></i>#}
+{#                                显示 1-{{ executable_list|length }} 条，共 {{ executable_list|length }} 条记录#}
+{#                            </small>#}
+{#                        </div>#}
+{#                    </div>#}
+                </div>
+                <!-- /.card -->
+            </div>
+        </div>
+
+    </div><!-- /.container-fluid -->
+</section>
+
+{% endblock main_content %}

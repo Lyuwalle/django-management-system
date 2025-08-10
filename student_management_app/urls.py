@@ -1,8 +1,6 @@
-
 from django.urls import path, include
 from . import views
-from .import HodViews, StaffViews, StudentViews
-
+from . import HodViews, StaffViews, StudentViews
 
 urlpatterns = [
     path('', views.loginPage, name="login"),
@@ -18,17 +16,33 @@ urlpatterns = [
     path('edit_staff_save/', HodViews.edit_staff_save, name="edit_staff_save"),
     path('delete_staff/<staff_id>/', HodViews.delete_staff, name="delete_staff"),
 
+    # 固件管理 admin
     path('manage_hardware/', HodViews.manage_hardware, name="manage_hardware"),
     path('add_hardware/', HodViews.add_hardware, name="add_hardware"),
     path('add_hardware_save/', HodViews.add_hardware_save, name="add_hardware_save"),
     path('download_firmware/<int:firmware_id>/', HodViews.download_firmware, name="download_firmware"),
     path('delete_hardware/<int:hardware_id>/', HodViews.delete_hardware, name="delete_hardware"),
 
+    # 固件管理 staff
     path('staff_manage_hardware/', StaffViews.manage_hardware, name="staff_manage_hardware"),
     path('staff_add_hardware/', StaffViews.add_hardware, name="staff_add_hardware"),
     path('staff_add_hardware_save/', StaffViews.add_hardware_save, name="staff_add_hardware_save"),
     path('staff_download_firmware/<int:firmware_id>/', StaffViews.download_firmware, name="staff_download_firmware"),
     path('staff_delete_hardware/<int:hardware_id>/', StaffViews.delete_hardware, name="staff_delete_hardware"),
+
+    # 可执行文件管理 admin
+    path('manage_executable/', HodViews.manage_executable, name="manage_executable"),
+    path('add_executable/', HodViews.add_executable, name="add_executable"),
+    path('add_executable_save/', HodViews.add_executable_save, name="add_executable_save"),
+    path('download_executable/<int:executable_id>/', HodViews.download_executable, name="download_executable"),
+    path('delete_executable/<int:executable_id>/', HodViews.delete_executable, name="delete_executable"),
+
+    # 可执行文件管理 staff
+    path('staff_manage_executable/', StaffViews.manage_executable, name="staff_manage_executable"),
+    path('staff_add_executable/', StaffViews.add_executable, name="add_executable"),
+    path('staff_add_executable_save/', StaffViews.add_executable_save, name="add_executable_save"),
+    path('staff_download_executable/<int:executable_id>/', StaffViews.download_executable, name="download_executable"),
+    path('staff_delete_executable/<int:executable_id>/', StaffViews.delete_executable, name="delete_executable"),
 
     path('add_course/', HodViews.add_course, name="add_course"),
     path('add_course_save/', HodViews.add_course_save, name="add_course_save"),
@@ -51,8 +65,7 @@ urlpatterns = [
     path('manage_student/', HodViews.manage_student, name="manage_student"),
     path('delete_student/<student_id>/', HodViews.delete_student, name="delete_student"),
 
-
-# Add these lines in the "URLS for Staff" section
+    # Add these lines in the "URLS for Staff" section
     path('staff_manage_student/', StaffViews.staff_manage_student, name="staff_manage_student"),
     path('staff_edit_student/<student_id>/', StaffViews.staff_edit_student, name="staff_edit_student"),
     path('staff_add_student/', StaffViews.staff_add_student, name="staff_add_student"),
@@ -71,7 +84,8 @@ urlpatterns = [
     path('check_email_exist/', HodViews.check_email_exist, name="check_email_exist"),
     path('check_username_exist/', HodViews.check_username_exist, name="check_username_exist"),
     path('student_feedback_message/', HodViews.student_feedback_message, name="student_feedback_message"),
-    path('student_feedback_message_reply/', HodViews.student_feedback_message_reply, name="student_feedback_message_reply"),
+    path('student_feedback_message_reply/', HodViews.student_feedback_message_reply,
+         name="student_feedback_message_reply"),
     path('staff_feedback_message/', HodViews.staff_feedback_message, name="staff_feedback_message"),
     path('staff_feedback_message_reply/', HodViews.staff_feedback_message_reply, name="staff_feedback_message_reply"),
     path('student_leave_view/', HodViews.student_leave_view, name="student_leave_view"),
@@ -85,8 +99,6 @@ urlpatterns = [
     path('admin_get_attendance_student/', HodViews.admin_get_attendance_student, name="admin_get_attendance_student"),
     path('admin_profile/', HodViews.admin_profile, name="admin_profile"),
     path('admin_profile_update/', HodViews.admin_profile_update, name="admin_profile_update"),
-    
-
 
     # URLS for Staff
     path('staff_home/', StaffViews.staff_home, name="staff_home"),
@@ -109,7 +121,8 @@ urlpatterns = [
     # URSL for Student
     path('student_home/', StudentViews.student_home, name="student_home"),
     path('student_view_attendance/', StudentViews.student_view_attendance, name="student_view_attendance"),
-    path('student_view_attendance_post/', StudentViews.student_view_attendance_post, name="student_view_attendance_post"),
+    path('student_view_attendance_post/', StudentViews.student_view_attendance_post,
+         name="student_view_attendance_post"),
     path('student_apply_leave/', StudentViews.student_apply_leave, name="student_apply_leave"),
     path('student_apply_leave_save/', StudentViews.student_apply_leave_save, name="student_apply_leave_save"),
     path('student_feedback/', StudentViews.student_feedback, name="student_feedback"),

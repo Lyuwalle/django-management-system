@@ -216,8 +216,6 @@ def save_user_profile(sender, instance, **kwargs):
         instance.students.save()
 
 
-import os
-
 def upload_to(instance, filename):
     return f'firmware/{filename}'
 
@@ -250,4 +248,35 @@ class FirmwareUpload(models.Model):
             return f"{size / (1024 * 1024):.2f} MB"
     
 
+# 可执行文件管理
+def upload_executable_to(instance, filename):
+    return f'executables/{filename}'
+
+class ExecutableUpload(models.Model):
+    id = models.AutoField(primary_key=True)
+    file_name = models.CharField(max_length=255, verbose_name="文件名")
+    file_size = models.IntegerField(verbose_name="文件大小(字节)")
+    file = models.FileField(upload_to=upload_executable_to, verbose_name="可执行文件")
+    upload_date = models.DateTimeField(auto_now_add=True, verbose_name="上传日期")
+    description = models.TextField(blank=True, null=True, verbose_name="描述")
+    uploaded_by = models.ForeignKey('CustomUser', on_delete=models.CASCADE, verbose_name="上传者")
+
+    class Meta:
+        db_table = 'executable_uploads'
+        verbose_name = "可执行文件上传"
+        verbose_name_plural = "可执行文件上传"
+        ordering = ['-upload_date']
+
+    def __str__(self):
+        return f"{self.file_name}"
+
+    def get_file_size_display(self):
+        """返回格式化的文件大小"""
+        size = self.file_size
+        if size < 1024:
+            return f"{size} B"
+        elif size < 1024 * 1024:
+            return f"{size / 1024:.2f} KB"
+        else:
+            return f"{size / (1024 * 1024):.2f} MB"
 

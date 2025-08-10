@@ -1,7 +1,7 @@
 {% extends 'staff_template/base_template.html' %}
 
 {% block page_title %}
-    Staff Home
+    学生中心
 {% endblock page_title %}
 
 {% block main_content %}
@@ -13,20 +13,20 @@
 
             {% comment %} Boxes Section Starts {% endcomment %}
             <div class="row">
-                <div class="col-lg-3 col-6">
-                    <!-- small box -->
-                    <div class="small-box bg-info">
-                    <div class="inner">
-                        <h3>{{ students_count }}</h3>
-
-                        <p>Students Under Me</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-stats-bars"></i>
-                    </div>
-                    <a href="{% url 'staff_take_attendance' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
+{#                <div class="col-lg-3 col-6">#}
+{#                    <!-- small box -->#}
+{#                    <div class="small-box bg-info">#}
+{#                    <div class="inner">#}
+{#                        <h3>{{ students_count }}</h3>#}
+{##}
+{#                        <p>Students Under Me</p>#}
+{#                    </div>#}
+{#                    <div class="icon">#}
+{#                        <i class="ion ion-stats-bars"></i>#}
+{#                    </div>#}
+{#                    <a href="{% url 'staff_take_attendance' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>#}
+{#                    </div>#}
+{#                </div>#}
                 <!-- ./col -->
 {#                <div class="col-lg-3 col-6">#}
 {#                    <!-- small box -->#}
@@ -155,8 +155,8 @@
            //Code for Pie Chart
             var pieData        = {
             labels: [
-                'Leave', 
-                'Attendance', 
+                'Leave',
+                'Attendance',
             ],
             datasets: [
                 {
@@ -177,7 +177,7 @@
             var pieChart = new Chart(pieChartCanvas, {
             type: 'pie',
             data: pieData,
-            options: pieOptions      
+            options: pieOptions
             })
 
             //Code for Bar Chart
@@ -190,7 +190,7 @@
             var subject_list = {{ subject_list|safe }}
 
             //Dataset for Bar Chart
-            
+
             var areaChartData = {
             labels  : subject_list,
             datasets: [
@@ -221,7 +221,7 @@
             }
 
             var barChart = new Chart(barChartCanvas, {
-            type: 'bar', 
+            type: 'bar',
             data: barChartData,
             options: barChartOptions
             })
@@ -273,7 +273,7 @@
             }
 
             var barChart2 = new Chart(barChartCanvas2, {
-            type: 'bar', 
+            type: 'bar',
             data: barChartData2,
             options: barChartOptions2
             })

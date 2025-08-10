@@ -10,7 +10,8 @@ from django.core import serializers
 import json
 
 from student_management_app.models import CustomUser, Staffs, Courses, Subjects, Students, SessionYearModel, \
-    FeedBackStudent, FeedBackStaffs, LeaveReportStudent, LeaveReportStaff, Attendance, AttendanceReport, FirmwareUpload
+    FeedBackStudent, FeedBackStaffs, LeaveReportStudent, LeaveReportStaff, Attendance, AttendanceReport, FirmwareUpload, \
+    ExecutableUpload
 from .forms import AddStudentForm, EditStudentForm
 
 
@@ -126,7 +127,6 @@ def manage_staff(request):
     }
     return render(request, "hod_template/manage_staff_template.html", context)
 
-# todo
 # 管理固件页面
 def manage_hardware(request):
     # if not hasattr(request.user, 'adminuser'):
@@ -134,13 +134,13 @@ def manage_hardware(request):
 
     firmware_list = FirmwareUpload.objects.all()
     context = {"firmware_list": firmware_list}
-    return render(request, 'hod_template/manage_hardware_template.html', context)
+    return render(request, 'hod_template/hardware/manage_hardware_template.html', context)
 
 # 上传固件页面
 def add_hardware(request):
     # if not hasattr(request.user, 'adminuser'):
     #     return redirect('admin_home')
-    return render(request, 'hod_template/add_hardware_template.html')
+    return render(request, 'hod_template/hardware/add_hardware_template.html')
 
 # 保存上传的固件
 def add_hardware_save(request):
@@ -214,6 +214,103 @@ def delete_hardware(request, hardware_id):
         messages.error(request, f"删除失败: {str(e)}")
 
     return redirect('manage_hardware')
+
+
+
+# 管理可执行文件页面
+def manage_executable(request):
+    # if not hasattr(request.user, 'adminuser'):
+    #     return redirect('admin_home')
+
+    executable_list = ExecutableUpload.objects.all()
+    context = {"executable_list": executable_list}
+    return render(request, 'hod_template/executable/manage_executable_template.html', context)
+
+# 上传可执行文件页面
+# @login_required
+def add_executable(request):
+    # if not hasattr(request.user, 'adminuser'):
+    #     return redirect('admin_home')
+    return render(request, 'hod_template/executable/add_executable_template.html')
+
+# 保存上传的可执行文件
+# @login_required
+def add_executable_save(request):
+    if request.method != "POST":
+        messages.error(request, "无效的请求方法")
+        return redirect('add_executable')
+
+    try:
+        description = request.POST.get('description', '')
+        executable_file = request.FILES.get('executable_file')
+
+        # 验证文件
+        if not executable_file:
+            messages.error(request, "请选择要上传的可执行文件")
+            return redirect('add_executable')
+
+        # 检查文件大小 (2MB = 2 * 1024 * 1024 bytes)
+        max_size = 2 * 1024 * 1024
+        if executable_file.size > max_size:
+            messages.error(request, "文件大小不能超过2MB")
+            return redirect('add_executable')
+
+        # 保存可执行文件信息
+        executable = ExecutableUpload(
+            file_name=executable_file.name,
+            file_size=executable_file.size,
+            file=executable_file,
+            description=description,
+            uploaded_by=request.user
+        )
+        executable.save()
+
+        messages.success(request, "可执行文件上传成功！")
+        return redirect('manage_executable')
+
+    except Exception as e:
+        messages.error(request, f"上传失败: {str(e)}")
+        return redirect('add_executable')
+
+# 下载可执行文件
+# @login_required
+def download_executable(request, executable_id):
+    try:
+        executable = ExecutableUpload.objects.get(id=executable_id)
+        if os.path.exists(executable.file.path):
+            with open(executable.file.path, 'rb') as fh:
+                response = HttpResponse(fh.read(), content_type="application/octet-stream")
+                response['Content-Disposition'] = f'attachment; filename="{executable.file_name}"'
+                return response
+        else:
+            messages.error(request, "文件不存在")
+    except ExecutableUpload.DoesNotExist:
+        messages.error(request, "可执行文件信息不存在")
+
+    return redirect('manage_executable')
+
+# 删除可执行文件
+# @login_required
+def delete_executable(request, executable_id):
+    try:
+        executable = ExecutableUpload.objects.get(id=executable_id)
+        # 删除文件
+        if os.path.exists(executable.file.path):
+            os.remove(executable.file.path)
+        # 删除数据库记录
+        executable.delete()
+        messages.success(request, "可执行文件删除成功！")
+    except ExecutableUpload.DoesNotExist:
+        messages.error(request, "可执行文件不存在")
+    except Exception as e:
+        messages.error(request, f"删除失败: {str(e)}")
+
+    return redirect('manage_executable')
+
+
+
+
+
 
 
 def edit_staff(request, staff_id):
