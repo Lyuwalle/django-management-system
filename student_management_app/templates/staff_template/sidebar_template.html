@@ -5,7 +5,7 @@
       <a href="{% url 'staff_home' %}" class="brand-link">
         <img src="{% static 'dist/img/AdminLTELogo.png' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
             style="opacity: .8">
-        <span class="brand-text font-weight-light">Home</span>
+        <span class="brand-text font-weight-light">主页</span>
       </a>
 
       <!-- Sidebar -->
@@ -37,16 +37,28 @@
 {#              </a>#}
 {#            </li>#}
 
-          <li class="nav-item">
-              {% url 'staff_manage_student' as manage_student %}
-              {% url 'staff_edit_student' student_id=id as edit_student %}
-              <a href="{{ manage_student }}" class="nav-link {% if request.path == staff_manage_student %} active {% endif %} {% if request.path == staff_edit_student %} active {% endif %}">
-                <i class="nav-icon fas fa-user-graduate"></i>
-                <p>
-                  Manage Student
-                </p>
-              </a>
-            </li>
+{#          <li class="nav-item">#}
+{#              {% url 'staff_manage_student' as manage_student %}#}
+{#              {% url 'staff_edit_student' student_id=id as edit_student %}#}
+{#              <a href="{{ manage_student }}" class="nav-link {% if request.path == staff_manage_student %} active {% endif %} {% if request.path == staff_edit_student %} active {% endif %}">#}
+{#                <i class="nav-icon fas fa-user-graduate"></i>#}
+{#                <p>#}
+{#                  学生管理#}
+{#                </p>#}
+{#              </a>#}
+{#            </li>#}
+
+              <li class="nav-item">
+                    {% url 'staff_manage_hardware' as staff_manage_hardware %}
+                    <a href="{{ staff_manage_hardware }}" class="nav-link
+                                    {% if request.path == staff_manage_hardware %} active {% endif %}
+                    ">
+                        <i class="nav-icon fas fa-chalkboard-teacher"></i>
+                        <p>
+                            固件管理
+                        </p>
+                    </a>
+                </li>
 
 {#            <li class="nav-item">#}
 {#              {% url 'staff_take_attendance' as staff_take_attendance %}#}
@@ -92,16 +104,16 @@
 {#              </a>#}
 {#            </li>#}
 
-            <li class="nav-item">
-              {% url 'staff_feedback' as staff_feedback %}
-              <a href="{{ staff_feedback }}" class="nav-link {% if request.path == staff_feedback %} active {% endif %}">
-                <i class="nav-icon fas fa-comments"></i>
-                <p>
-                  Feedback
-                  {% comment %} <span class="right badge badge-danger">New</span> {% endcomment %}
-                </p>
-              </a>
-            </li>
+{#            <li class="nav-item">#}
+{#              {% url 'staff_feedback' as staff_feedback %}#}
+{#              <a href="{{ staff_feedback }}" class="nav-link {% if request.path == staff_feedback %} active {% endif %}">#}
+{#                <i class="nav-icon fas fa-comments"></i>#}
+{#                <p>#}
+{#                  Feedback#}
+{#                  {% comment %} <span class="right badge badge-danger">New</span> {% endcomment %}#}
+{#                </p>#}
+{#              </a>#}
+{#            </li>#}
 
           </ul>
         </nav>

@@ -1,3 +1,4 @@
+This project is forked from [django-student-management-system](https://github.com/vijaythapa333/django-student-management-system)
 
 ## How to Install and Run this project?
 
@@ -44,11 +45,6 @@ $  source venv/scripts/activate
 For Mac
 ```
 $  source venv/bin/activate
-```
-
-**3. Clone this project**
-```
-$  git clone https://github.com/vijaythapa333/django-student-management-system.git
 ```
 
 Then, Enter the project
@@ -100,8 +96,3 @@ Password: admin
 *For Staff*
 Email: staff@gmail.com
 Password: staff
-
-*For Student*
-Email: student@gmail.com
-Password: student
-

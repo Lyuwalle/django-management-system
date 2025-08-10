@@ -1,3 +1,5 @@
+import os
+
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib import messages
@@ -9,7 +11,8 @@ import json
 
 from student_management_app.HodViews import edit_student, manage_student
 from student_management_app.forms import EditStudentForm, AddStudentForm
-from student_management_app.models import CustomUser, Staffs, Courses, Subjects, Students, SessionYearModel, Attendance, AttendanceReport, LeaveReportStaff, FeedBackStaffs, StudentResult
+from student_management_app.models import CustomUser, Staffs, Courses, Subjects, Students, SessionYearModel, Attendance, \
+    AttendanceReport, LeaveReportStaff, FeedBackStaffs, StudentResult, FirmwareUpload
 
 
 def staff_home(request):
@@ -532,3 +535,92 @@ def staff_delete_student(request, student_id):
     except:
         messages.error(request, "Failed to Delete Student.")
         return redirect('staff_manage_student')
+
+
+# 管理固件页面
+def manage_hardware(request):
+    # if not hasattr(request.user, 'adminuser'):
+    #     return redirect('admin_home')
+
+    firmware_list = FirmwareUpload.objects.all()
+    context = {"firmware_list": firmware_list}
+    return render(request, 'staff_template/manage_hardware_template.html', context)
+
+# 上传固件页面
+def add_hardware(request):
+    # if not hasattr(request.user, 'adminuser'):
+    #     return redirect('admin_home')
+    return render(request, 'staff_template/add_hardware_template.html')
+
+# 保存上传的固件
+def add_hardware_save(request):
+    if request.method != "POST":
+        messages.error(request, "无效的请求方法")
+        return redirect('staff_add_hardware')
+
+    try:
+        # firmware_version = request.POST.get('firmware_version')
+        description = request.POST.get('description', '')
+        firmware_file = request.FILES.get('firmware_file')
+
+        # 验证文件
+        if not firmware_file:
+            messages.error(request, "请选择要上传的固件文件")
+            return redirect('staff_add_hardware')
+
+        # 检查文件大小 (2MB = 2 * 1024 * 1024 bytes)
+        max_size = 2 * 1024 * 1024
+        if firmware_file.size > max_size:
+            messages.error(request, "文件大小不能超过2MB")
+            return redirect('staff_add_hardware')
+
+        # 保存固件信息
+        firmware = FirmwareUpload(
+            # firmware_version=firmware_version,
+            file_name=firmware_file.name,
+            file_size=firmware_file.size,
+            file=firmware_file,
+            description=description,
+            uploaded_by=request.user
+        )
+        firmware.save()
+
+        messages.success(request, "固件上传成功！")
+        return redirect('staff_manage_hardware')
+
+    except Exception as e:
+        messages.error(request, f"上传失败: {str(e)}")
+        return redirect('staff_add_hardware')
+
+# 下载固件文件
+def download_firmware(request, firmware_id):
+    try:
+        firmware = FirmwareUpload.objects.get(id=firmware_id)
+        if os.path.exists(firmware.file.path):
+            with open(firmware.file.path, 'rb') as fh:
+                response = HttpResponse(fh.read(), content_type="application/octet-stream")
+                response['Content-Disposition'] = f'attachment; filename="{firmware.file_name}"'
+                return response
+        else:
+            messages.error(request, "文件不存在")
+    except FirmwareUpload.DoesNotExist:
+        messages.error(request, "固件信息不存在")
+
+    return redirect('staff_manage_hardware')
+
+# 删除固件
+def delete_hardware(request, hardware_id):
+    try:
+        firmware = FirmwareUpload.objects.get(id=hardware_id)
+        # 删除文件
+        if os.path.exists(firmware.file.path):
+            os.remove(firmware.file.path)
+        # 删除数据库记录
+        firmware.delete()
+        messages.success(request, "固件删除成功！")
+    except FirmwareUpload.DoesNotExist:
+        messages.error(request, "固件不存在")
+    except Exception as e:
+        messages.error(request, f"删除失败: {str(e)}")
+
+    return redirect('staff_manage_hardware')
