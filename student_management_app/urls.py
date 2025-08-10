@@ -18,6 +18,12 @@ urlpatterns = [
     path('edit_staff_save/', HodViews.edit_staff_save, name="edit_staff_save"),
     path('delete_staff/<staff_id>/', HodViews.delete_staff, name="delete_staff"),
 
+    path('manage_hardware/', HodViews.manage_hardware, name="manage_hardware"),
+    path('add_hardware/', HodViews.add_hardware, name="add_hardware"),
+    path('add_hardware_save/', HodViews.add_hardware_save, name="add_hardware_save"),
+    path('download_firmware/<int:firmware_id>/', HodViews.download_firmware, name="download_firmware"),
+    path('delete_hardware/<int:hardware_id>/', HodViews.delete_hardware, name="delete_hardware"),
+
     path('add_course/', HodViews.add_course, name="add_course"),
     path('add_course_save/', HodViews.add_course_save, name="add_course_save"),
     path('manage_course/', HodViews.manage_course, name="manage_course"),

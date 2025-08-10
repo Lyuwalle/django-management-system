@@ -17,10 +17,10 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <h2 class="text-dark font-weight-bold">
                             <i class="fas fa-users text-primary mr-2"></i>
-                            Manage Staff
+                            学生管理
                         </h2>
                         <a class="btn btn-primary btn-lg shadow-sm" href="{% url 'add_staff' %}" role="button">
-                            <i class="fas fa-plus mr-2"></i>Add New Staff
+                            <i class="fas fa-plus mr-2"></i>添加新学生
                         </a>
                     </div>
                 </div>
@@ -59,7 +59,7 @@
                     <!-- general form elements -->
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Staff Details</h3>
+                            <h3 class="card-title">学生信息列表</h3>
 
                             <div class="card-tools">
                             <div class="input-group input-group-sm" style="width: 150px;">
@@ -77,14 +77,14 @@
                             <thead>
                                 <tr>
                                 <th>ID</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Username</th>
-                                <th>Email</th>
-                                <th>Address</th>
-                                <th>Last Login</th>
-                                <th>Date Joined</th>
-                                <th>Action</th>
+                                <th>名</th>
+                                <th>姓</th>
+                                <th>用户名</th>
+                                <th>邮箱</th>
+                                <th>地址</th>
+                                <th>最后登录</th>
+                                <th>加入日期</th>
+                                <th>操作</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -99,8 +99,8 @@
                                 <td>{{ staff.admin.last_login }}</td>
                                 <td>{{ staff.admin.date_joined }}</td>
                                 <td>
-                                    <a href="{% url 'edit_staff' staff.admin.id %}" class="btn btn-success">Edit</a> 
-                                    <a href="{% url 'delete_staff' staff.admin.id %}" class="btn btn-danger">Delete</a>
+                                    <a href="{% url 'edit_staff' staff.admin.id %}" class="btn btn-success">编辑</a>
+                                    <a href="{% url 'delete_staff' staff.admin.id %}" class="btn btn-danger">删除</a>
                                 </td>
                                 </tr>
                                 {% endfor %}
