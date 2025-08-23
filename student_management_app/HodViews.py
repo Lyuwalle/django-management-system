@@ -158,12 +158,6 @@ def add_hardware_save(request):
             messages.error(request, "请选择要上传的固件文件")
             return redirect('add_hardware')
 
-        # 检查文件大小 (2MB = 2 * 1024 * 1024 bytes)
-        max_size = 2 * 1024 * 1024
-        if firmware_file.size > max_size:
-            messages.error(request, "文件大小不能超过2MB")
-            return redirect('add_hardware')
-
         # 保存固件信息
         firmware = FirmwareUpload(
             # firmware_version=firmware_version,
@@ -247,12 +241,6 @@ def add_executable_save(request):
         # 验证文件
         if not executable_file:
             messages.error(request, "请选择要上传的可执行文件")
-            return redirect('add_executable')
-
-        # 检查文件大小 (2MB = 2 * 1024 * 1024 bytes)
-        max_size = 2 * 1024 * 1024
-        if executable_file.size > max_size:
-            messages.error(request, "文件大小不能超过2MB")
             return redirect('add_executable')
 
         # 保存可执行文件信息

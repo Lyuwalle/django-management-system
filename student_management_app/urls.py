@@ -32,17 +32,17 @@ urlpatterns = [
 
     # 可执行文件管理 admin
     path('manage_executable/', HodViews.manage_executable, name="manage_executable"),
-    path('add_executable/', HodViews.add_executable, name="add_executable"),
+    path('add_executable/', HodViews.add_executable, name="add_executable1"),
     path('add_executable_save/', HodViews.add_executable_save, name="add_executable_save"),
     path('download_executable/<int:executable_id>/', HodViews.download_executable, name="download_executable"),
     path('delete_executable/<int:executable_id>/', HodViews.delete_executable, name="delete_executable"),
 
     # 可执行文件管理 staff
     path('staff_manage_executable/', StaffViews.manage_executable, name="staff_manage_executable"),
-    path('staff_add_executable/', StaffViews.add_executable, name="add_executable"),
-    path('staff_add_executable_save/', StaffViews.add_executable_save, name="add_executable_save"),
-    path('staff_download_executable/<int:executable_id>/', StaffViews.download_executable, name="download_executable"),
-    path('staff_delete_executable/<int:executable_id>/', StaffViews.delete_executable, name="delete_executable"),
+    path('staff_add_executable/', StaffViews.add_executable, name="staff_add_executable"),
+    path('staff_add_executable_save/', StaffViews.add_executable_save, name="staff_add_executable_save"),
+    path('staff_download_executable/<int:executable_id>/', StaffViews.download_executable, name="staff_download_executable"),
+    path('staff_delete_executable/<int:executable_id>/', StaffViews.delete_executable, name="staff_delete_executable"),
 
     # path('add_course/', HodViews.add_course, name="add_course"),
     # path('add_course_save/', HodViews.add_course_save, name="add_course_save"),

@@ -18,14 +18,14 @@
                         {% csrf_token %}
                         <div class="card-body">
                             <div class="form-group">
-                                <label>可执行文件 <small class="text-muted">(最大2MB)</small></label>
+                                <label>可执行文件 <small class="text-muted"></small></label>
                                 <div class="input-group">
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input" name="executable_file" id="executable_file" required>
                                         <label class="custom-file-label" for="executable_file">选择文件</label>
                                     </div>
                                 </div>
-                                <small class="form-text text-muted">支持所有类型的可执行文件，大小不超过2MB</small>
+                                <small class="form-text text-muted">支持所有类型的可执行文件</small>
                             </div>
 
                             <div class="form-group">
@@ -57,15 +57,6 @@ document.querySelector('.custom-file-input').addEventListener('change', function
         var fileName = file.name;
         var fileSize = file.size;
         var nextSibling = e.target.nextElementSibling;
-
-        // 检查文件大小
-        if (fileSize > 2 * 1024 * 1024) {
-            alert('文件大小不能超过2MB');
-            e.target.value = '';
-            nextSibling.innerText = '选择文件';
-            return;
-        }
-
         nextSibling.innerText = fileName;
     }
 });

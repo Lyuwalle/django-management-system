@@ -15,7 +15,7 @@
                         <i class="nav-icon fas fa-file-code text-primary"></i>
                         可执行文件管理
                     </h2>
-                    <a class="btn btn-primary btn-lg shadow-sm" href="{% url 'add_executable' %}" role="button">
+                    <a class="btn btn-primary btn-lg shadow-sm" href="{% url 'staff_add_executable' %}" role="button">
                         <i class="fas fa-upload mr-2"></i>上传可执行文件
                     </a>
                 </div>
@@ -97,10 +97,10 @@
                                         {% endif %}
                                     </td>
                                     <td>
-                                        <a href="{% url 'download_executable' executable.id %}" class="btn btn-sm btn-info mr-1">
+                                        <a href="{% url 'staff_download_executable' executable.id %}" class="btn btn-sm btn-info mr-1">
                                             <i class="fas fa-download"></i> 下载
                                         </a>
-                                        <a href="{% url 'delete_executable' executable.id %}" class="btn btn-sm btn-danger" onclick="return confirm('确定要删除这个可执行文件吗？')">
+                                        <a href="{% url 'staff_delete_executable' executable.id %}" class="btn btn-sm btn-danger" onclick="return confirm('确定要删除这个可执行文件吗？')">
                                             <i class="fas fa-trash"></i> 删除
                                         </a>
                                     </td>
