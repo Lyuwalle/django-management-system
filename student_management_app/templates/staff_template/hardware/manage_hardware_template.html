@@ -54,24 +54,13 @@
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">固件信息列表</h3>
-
-{#                            <div class="card-tools">#}
-{#                                <div class="input-group input-group-sm" style="width: 150px;">#}
-{#                                    <input type="text" name="table_search" class="form-control float-right"#}
-{#                                           placeholder="搜索">#}
-{#                                    <div class="input-group-append">#}
-{#                                        <button type="submit" class="btn btn-default"><i class="fas fa-search"></i>#}
-{#                                        </button>#}
-{#                                    </div>#}
-{#                                </div>#}
-{#                            </div>#}
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body table-responsive p-0">
                             <table class="table table-hover text-nowrap">
                                 <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th>序号</th>
                                     <th>文件名</th>
                                     <th>文件大小</th>
                                     <th>上传日期</th>
@@ -82,7 +71,7 @@
                                 <tbody>
                                 {% for firmware in firmware_list %}
                                     <tr>
-                                        <td>{{ firmware.id }}</td>
+                                        <td>{{ forloop.counter }}</td>
                                         <td>{{ firmware.file_name }}</td>
                                         <td>{{ firmware.get_file_size_display }}</td>
                                         <td>{{ firmware.upload_date|date:"Y-m-d H:i" }}</td>
@@ -101,7 +90,7 @@
                                     </tr>
                                 {% empty %}
                                     <tr>
-                                        <td colspan="7" class="text-center text-muted">暂无固件信息</td>
+                                        <td colspan="6" class="text-center text-muted">暂无固件信息</td>
                                     </tr>
                                 {% endfor %}
                                 </tbody>

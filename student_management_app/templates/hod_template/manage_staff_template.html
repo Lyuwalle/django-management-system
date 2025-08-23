@@ -26,35 +26,31 @@
                 </div>
             </div>
 
-{#            <a class="btn btn-primary" href="{% url 'add_staff' %}" role="button">+ Add Staff</a> <br/>&nbsp;#}
-
             {% if messages %}
-                                <div class="form-group">
-                                <div class="col-12">
-                                    {% for message in messages %}
-                                    {% if message.tags == "error" %}
-                                        <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 10px;">
-                                        {{ message }}
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                        </div>
-                                    {% elif message.tags == "success" %}
-                                        <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 10px;">
-                                        {{ message }}
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                        </div>
-                                    {% endif %}
-                                    {% endfor %}
-                                </div>
-                                </div>
-                                {% endif %}
-                                
+                <div class="form-group">
+                    <div class="col-12">
+                        {% for message in messages %}
+                            {% if message.tags == "success" %}
+                            <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            {% elif message.tags == "error" %}
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
 
             <div class="row">
-
                 <div class="col-md-12">
                     <!-- general form elements -->
                     <div class="card">
@@ -76,7 +72,7 @@
                             <table class="table table-hover text-nowrap">
                             <thead>
                                 <tr>
-                                <th>ID</th>
+                                <th>序号</th>
                                 <th>名</th>
                                 <th>姓</th>
                                 <th>用户名</th>
@@ -90,21 +86,28 @@
                             <tbody>
                                 {% for staff in staffs %}
                                 <tr>
-                                <td>{{ staff.admin.id }}</td>
+                                <td>{{ forloop.counter }}</td>
                                 <td>{{ staff.admin.first_name }}</td>
                                 <td>{{ staff.admin.last_name }}</td>
                                 <td>{{ staff.admin.username }}</td>
                                 <td>{{ staff.admin.email }}</td>
                                 <td>{{ staff.address }}</td>
-                                <td>{{ staff.admin.last_login }}</td>
-                                <td>{{ staff.admin.date_joined }}</td>
+                                <td>{{ staff.admin.last_login|date:"Y-m-d H:i" }}</td>
+                                <td>{{ staff.admin.date_joined|date:"Y-m-d H:i" }}</td>
                                 <td>
-                                    <a href="{% url 'edit_staff' staff.admin.id %}" class="btn btn-success">编辑</a>
-                                    <a href="{% url 'delete_staff' staff.admin.id %}" class="btn btn-danger">删除</a>
+                                    <a href="{% url 'edit_staff' staff.admin.id %}" class="btn btn-sm btn-success mr-1">
+                                        <i class="fas fa-edit"></i> 编辑
+                                    </a>
+                                    <a href="{% url 'delete_staff' staff.admin.id %}" class="btn btn-sm btn-danger" onclick="return confirm('确定要删除这个学生吗？')">
+                                        <i class="fas fa-trash"></i> 删除
+                                    </a>
                                 </td>
                                 </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="9" class="text-center text-muted">暂无学生信息</td>
+                                </tr>
                                 {% endfor %}
-                                
                             </tbody>
                             </table>
                         </div>
