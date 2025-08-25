@@ -2,106 +2,147 @@
 
 {% block main_content %}
 
-    {% load static %}
+{% load static %}
+{% load tz %}
 
-    <section class="content">
-        <div class="container-fluid">
+<section class="content">
+    <div class="container-fluid">
 
-            <!-- Header Section -->
-            <div class="row mb-4">
+        <!-- Header Section -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h2 class="text-dark font-weight-bold">
+                        <i class="fas fa-microchip text-primary mr-2"></i>
+                        固件管理
+                    </h2>
+                    <a class="btn btn-primary btn-lg shadow-sm" href="{% url 'staff_add_hardware' %}" role="button">
+                        <i class="fas fa-upload mr-2"></i>上传固件信息
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        {% if messages %}
+            <div class="form-group">
                 <div class="col-12">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h2 class="text-dark font-weight-bold">
-                            <i class="fas fa-microchip text-primary mr-2"></i>
-                            硬件管理
-                        </h2>
-                        <a class="btn btn-primary btn-lg shadow-sm" href="{% url 'staff_add_hardware' %}" role="button">
-                            <i class="fas fa-upload mr-2"></i>上传固件信息
-                        </a>
-                    </div>
+                    {% for message in messages %}
+                        {% if message.tags == "error" %}
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert"
+                                 style="margin-top: 10px;">
+                                {{ message }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% elif message.tags == "success" %}
+                            <div class="alert alert-success alert-dismissible fade show" role="alert"
+                                 style="margin-top: 10px;">
+                                {{ message }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
                 </div>
             </div>
+        {% endif %}
 
-            {% if messages %}
-                <div class="form-group">
-                    <div class="col-12">
-                        {% for message in messages %}
-                            {% if message.tags == "error" %}
-                                <div class="alert alert-danger alert-dismissible fade show" role="alert"
-                                     style="margin-top: 10px;">
-                                    {{ message }}
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                            {% elif message.tags == "success" %}
-                                <div class="alert alert-success alert-dismissible fade show" role="alert"
-                                     style="margin-top: 10px;">
-                                    {{ message }}
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                            {% endif %}
-                        {% endfor %}
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Hardware Information Table -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">固件信息列表</h3>
                     </div>
-                </div>
-            {% endif %}
-
-            <div class="row">
-                <div class="col-md-12">
-                    <!-- Hardware Information Table -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">固件信息列表</h3>
-                        </div>
-                        <!-- /.card-header -->
-                        <div class="card-body table-responsive p-0">
-                            <table class="table table-hover text-nowrap">
-                                <thead>
+                    <!-- /.card-header -->
+                    <div class="card-body table-responsive p-0">
+                        <table class="table table-hover text-nowrap">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>文件名</th>
+                                <th>文件大小</th>
+                                <th>上传日期</th>
+                                <th>上传者</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for firmware in firmware_list %}
                                 <tr>
-                                    <th>序号</th>
-                                    <th>文件名</th>
-                                    <th>文件大小</th>
-                                    <th>上传日期</th>
-                                    <th>上传者</th>
-                                    <th>操作</th>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>
+                                        <i class="fas fa-microchip text-primary mr-2"></i>
+                                        {{ firmware.file_name }}
+                                    </td>
+                                    <td>{{ firmware.get_file_size_display }}</td>
+                                    <td>{{ firmware.upload_date|date:"Y-m-d H:i" }}</td>
+                                    <td>{{ firmware.uploaded_by.first_name }} {{ firmware.uploaded_by.last_name }}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-warning mr-1" data-toggle="modal" data-target="#viewModal{{ firmware.id }}">
+                                            <i class="fas fa-eye"></i> 查看
+                                        </button>
+                                        <a href="{% url 'staff_download_firmware' firmware.id %}"
+                                           class="btn btn-sm btn-info mr-1">
+                                            <i class="fas fa-download"></i> 下载
+                                        </a>
+                                        <a href="{% url 'staff_delete_hardware' firmware.id %}"
+                                           class="btn btn-sm btn-danger"
+                                           onclick="return confirm('确定要删除这个固件吗？')">
+                                            <i class="fas fa-trash"></i> 删除
+                                        </a>
+                                    </td>
                                 </tr>
-                                </thead>
-                                <tbody>
-                                {% for firmware in firmware_list %}
-                                    <tr>
-                                        <td>{{ forloop.counter }}</td>
-                                        <td>{{ firmware.file_name }}</td>
-                                        <td>{{ firmware.get_file_size_display }}</td>
-                                        <td>{{ firmware.upload_date|date:"Y-m-d H:i" }}</td>
-                                        <td>{{ firmware.uploaded_by.first_name }} {{ firmware.uploaded_by.last_name }}</td>
-                                        <td>
-                                            <a href="{% url 'staff_download_firmware' firmware.id %}"
-                                               class="btn btn-sm btn-info mr-1">
-                                                <i class="fas fa-download"></i> 下载
-                                            </a>
-                                            <a href="{% url 'staff_delete_hardware' firmware.id %}"
-                                               class="btn btn-sm btn-danger"
-                                               onclick="return confirm('确定要删除这个固件吗？')">
-                                                <i class="fas fa-trash"></i> 删除
-                                            </a>
-                                        </td>
-                                    </tr>
-                                {% empty %}
-                                    <tr>
-                                        <td colspan="6" class="text-center text-muted">暂无固件信息</td>
-                                    </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <!-- /.card -->
-                </div>
-            </div>
 
-        </div><!-- /.container-fluid -->
-    </section>
+                                <!-- View Modal -->
+                                <div class="modal fade" id="viewModal{{ firmware.id }}" tabindex="-1" role="dialog" aria-labelledby="viewModalLabel{{ firmware.id }}" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="viewModalLabel{{ firmware.id }}">
+                                                    <i class="fas fa-microchip text-primary mr-2"></i>
+                                                    查看固件详情
+                                                </h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <!-- 这里是空白内容区域 -->
+                                                <div class="container-fluid">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <p class="text-muted text-center">查看内容区域</p>
+                                                            <!-- 你可以在这里添加需要显示的内容 -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                    <i class="fas fa-times mr-1"></i>关闭
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            {% empty %}
+                                <tr>
+                                    <td colspan="6" class="text-center text-muted">暂无固件信息</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- /.card -->
+            </div>
+        </div>
+
+    </div><!-- /.container-fluid -->
+</section>
 
 {% endblock main_content %}

@@ -52,29 +52,29 @@
                     </a>
                 </li>
 
-                <li class="nav-item">
-                    {% url 'manage_hardware' as manage_hardware %}
-                    <a href="{{ manage_hardware }}" class="nav-link
-                                    {% if request.path == manage_hardware %} active {% endif %}
-                    ">
-                        <i class="nav-icon fas fa-microchip"></i>
-                        <p>
-                            固件管理
-                        </p>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    {% url 'manage_executable' as manage_executable %}
-                    <a href="{{ manage_executable }}" class="nav-link
-                                    {% if request.path == manage_executable %} active {% endif %}
-                    ">
-                        <i class="nav-icon fas fa-file-code"></i>
-                        <p>
-                            可执行文件管理
-                        </p>
-                    </a>
-                </li>
+{#                <li class="nav-item">#}
+{#                    {% url 'manage_hardware' as manage_hardware %}#}
+{#                    <a href="{{ manage_hardware }}" class="nav-link#}
+{#                                    {% if request.path == manage_hardware %} active {% endif %}#}
+{#                    ">#}
+{#                        <i class="nav-icon fas fa-microchip"></i>#}
+{#                        <p>#}
+{#                            固件管理#}
+{#                        </p>#}
+{#                    </a>#}
+{#                </li>#}
+{##}
+{#                <li class="nav-item">#}
+{#                    {% url 'manage_executable' as manage_executable %}#}
+{#                    <a href="{{ manage_executable }}" class="nav-link#}
+{#                                    {% if request.path == manage_executable %} active {% endif %}#}
+{#                    ">#}
+{#                        <i class="nav-icon fas fa-file-code"></i>#}
+{#                        <p>#}
+{#                            可执行文件管理#}
+{#                        </p>#}
+{#                    </a>#}
+{#                </li>#}
 
                 {#            <li class="nav-item">#}
                 {#              {% url 'add_staff' as add_staff %}#}

@@ -485,7 +485,9 @@ def manage_hardware(request):
     # if not hasattr(request.user, 'adminuser'):
     #     return redirect('admin_home')
 
-    firmware_list = FirmwareUpload.objects.all()
+    # firmware_list = FirmwareUpload.objects.all()
+    # 只获取当前用户上传的固件
+    firmware_list = FirmwareUpload.objects.filter(uploaded_by=request.user).order_by('-upload_date')
     context = {"firmware_list": firmware_list}
     return render(request, 'staff_template/hardware/manage_hardware_template.html', context)
 
@@ -573,7 +575,7 @@ def manage_executable(request):
     # if not hasattr(request.user, 'adminuser'):
     #     return redirect('admin_home')
 
-    executable_list = ExecutableUpload.objects.all()
+    executable_list = ExecutableUpload.objects.filter(uploaded_by=request.user).order_by('-upload_date')
     context = {"executable_list": executable_list}
     return render(request, 'staff_template/executable/manage_executable_template.html', context)
 
